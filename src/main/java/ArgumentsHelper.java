@@ -14,6 +14,9 @@ public class ArgumentsHelper {
 
     static Options options = new Options();
 
+    private static CommandLineParser parser = new DefaultParser();
+    static CommandLine cmd;
+
     static final String THREADS_LIMIT         = "n";
     static final String SPEED_LIMIT           = "l";
     static final String INPUT_FILEPATH        = "f";
@@ -22,41 +25,24 @@ public class ArgumentsHelper {
     /* No speed limit */
     static final String DEFAULT_SPEED_LIMIT   = "0";
 
-    static final String SPEED_LIMIT_DESC   = "general download speed limit, k and m suffixes are allowed; " +
-                                             "no speed limit by default";
-    static final String INPUT_FILE_DESC    = "path to file with filenames and links which will be downloaded;\n" +
-                                             "example: http://site.org/file.zip archive.zip";
+    static final String SPEED_LIMIT_DESC   = "general download speed limit, k and m suffixes are allowed; " + "no speed limit by default";
+    static final String INPUT_FILE_DESC    = "path to file with filenames and links which will be downloaded;\n" + "example: http://site.org/file.zip archive.zip";
     static final String OUTPUT_DIR_DESC    = "existing output directory";
     static final String THREADS_LIMIT_DESC = "amount of concurrent downloading threads, default value = 2";
     static final String FILE_PATH_ERROR    = "Path or file %s doesn't exist";
     static final String APP_NAME           = "console-downloader";
     static final String INVALID_ARG        = "%s is not valid argument value";
 
+
     private static class CommandLineOptions {
 
-        static Option speedLimit = Option.builder(SPEED_LIMIT)
-                                         .required(false)
-                                         .hasArg()
-                                         .desc(SPEED_LIMIT_DESC)
-                                         .build();
+        static Option speedLimit = Option.builder(SPEED_LIMIT).required(false).hasArg().desc(SPEED_LIMIT_DESC).build();
 
-        static Option inputPath = Option.builder(INPUT_FILEPATH)
-                                        .required(true)
-                                        .desc(INPUT_FILE_DESC)
-                                        .hasArg()
-                                        .build();
+        static Option inputPath = Option.builder(INPUT_FILEPATH).required(true).desc(INPUT_FILE_DESC).hasArg().build();
 
-        static Option outputPath = Option.builder(OUTPUT_DIR)
-                                         .required(true)
-                                         .desc(OUTPUT_DIR_DESC)
-                                         .hasArg()
-                                         .build();
+        static Option outputPath = Option.builder(OUTPUT_DIR).required(true).desc(OUTPUT_DIR_DESC).hasArg().build();
 
-        static Option threads = Option.builder(THREADS_LIMIT)
-                                      .required(false)
-                                      .desc(THREADS_LIMIT_DESC)
-                                      .hasArg()
-                                      .build();
+        static Option threads = Option.builder(THREADS_LIMIT).required(false).desc(THREADS_LIMIT_DESC).hasArg().build();
 
     }
 
@@ -87,16 +73,12 @@ public class ArgumentsHelper {
     public static void checkFilePaths(String... paths) {
         for (String path : paths) {
             if (!Files.exists(Paths.get(path))) {
-                System.out.println(String.format(FILE_PATH_ERROR,
-                                                 path));
+                System.out.println(String.format(FILE_PATH_ERROR, path));
                 printUsageHelp();
                 System.exit(1);
             }
         }
     }
-
-    private static CommandLineParser parser = new DefaultParser();
-    static CommandLine cmd;
 
     public static CommandLine parse(String[] args) throws ParseException {
         options.addOption(CommandLineOptions.inputPath);

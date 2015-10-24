@@ -30,21 +30,15 @@ public class DownloadManager {
 
     private static       AtomicCounter       bytesCounter  = new AtomicCounter();
     private              List<GetDownloader> downloaders   = new ArrayList<>();
-    private static final String              ERROR_MESSAGE = "Can't start downloading: %s\n" +
-                                                             "It might be related to internet connection";
+    private static final String              ERROR_MESSAGE = "Can't start downloading: %s\n" + "It might be related to internet connection";
 
-    DownloadManager(HashMap<String, String> linksAndFilenames,
-                    String outputDest,
-                    int poolSize,
-                    long speedLimit) throws IOException {
+    DownloadManager(HashMap<String, String> linksAndFilenames, String outputDest, int poolSize, long speedLimit) throws IOException {
         downloadLimit = speedLimit / poolSize;
         connectionManager = new PoolingHttpClientConnectionManager();
         connectionManager.setMaxTotal(poolSize);
         /* In case it can be multiple downloads from the same host */
         connectionManager.setDefaultMaxPerRoute(poolSize);
-        httpClient = HttpClients.custom()
-                                .setConnectionManager(connectionManager)
-                                .build();
+        httpClient = HttpClients.custom().setConnectionManager(connectionManager).build();
         this.linksAndFilenames = linksAndFilenames;
         this.outputDest = outputDest;
         collectDownloaders();
@@ -81,9 +75,7 @@ public class DownloadManager {
         private final HttpGet             httpGet;
         private final Path                destination;
 
-        GetDownloader(CloseableHttpClient httpClient,
-                      HttpGet httpGet,
-                      Path destination) {
+        GetDownloader(CloseableHttpClient httpClient, HttpGet httpGet, Path destination) {
             this.httpClient = httpClient;
             this.destination = destination;
             this.context = HttpClientContext.create();
@@ -92,16 +84,14 @@ public class DownloadManager {
         }
 
         private void writeToFile(InputStream inputStream, String outputDest, long contentLength) throws IOException {
-            try (BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(
-                         new FileOutputStream(outputDest)
-                 )) {
+            try (BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(outputDest))) {
 
                 System.out.println("Starting to write " + outputDest);
 
                 int getBytes;
-                    while ((getBytes = inputStream.read()) != -1) {
-                        bufferedOutputStream.write(getBytes);
-                    }
+                while ((getBytes = inputStream.read()) != -1) {
+                    bufferedOutputStream.write(getBytes);
+                }
 
                 bytesCounter.increment(contentLength);
 

@@ -8,9 +8,9 @@ import java.util.HashMap;
  * Created by iddqd on 8/8/15.
  */
 public class FileParser {
-    String line;
+    String   line;
     String[] splittedLine;
-    final String splitPattern = "\\s+";
+    final String                  splitPattern   = "\\s+";
     final HashMap<String, String> linkAndNameMap = new HashMap<>();
 
     HashMap<String, String> parseFile(String filename) throws IOException {
@@ -21,8 +21,8 @@ public class FileParser {
                 if (splittedLine.length == 2) {
                     linkAndNameMap.put(splittedLine[1], splittedLine[0]);
                 } else {
-                    System.out.println(String.format("Line '%s' probably doesn't have link " +
-                                                     "or filename, it will be skipped", line));
+                    System.out.println(String.format("Line '%s' probably doesn't have link or filename, " +
+                                                     "it will be skipped", line));
                 }
             }
         } catch (IOException e) {
