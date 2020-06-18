@@ -10,12 +10,12 @@ import java.util.regex.Pattern;
  */
 public class ArgumentsHelper {
 
-    static HelpFormatter helpFormatter = new HelpFormatter();
+    private ArgumentsHelper(){}
 
-    static Options options = new Options();
+    private static final HelpFormatter helpFormatter = new HelpFormatter();
+    private static final Options options = new Options();
 
-    private static CommandLineParser parser = new DefaultParser();
-    static CommandLine cmd;
+    private static final CommandLineParser parser = new DefaultParser();
 
     static final String THREADS_LIMIT         = "n";
     static final String SPEED_LIMIT           = "l";
@@ -85,9 +85,8 @@ public class ArgumentsHelper {
         options.addOption(CommandLineOptions.speedLimit);
         options.addOption(CommandLineOptions.outputPath);
         options.addOption(CommandLineOptions.threads);
-        cmd = parser.parse(options, args);
 
-        return cmd;
+        return parser.parse(options, args);
     }
 
 }

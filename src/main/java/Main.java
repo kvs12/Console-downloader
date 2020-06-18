@@ -1,7 +1,7 @@
 import org.apache.commons.cli.ParseException;
 
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -16,31 +16,31 @@ public class Main {
             String inputFilename = ArgumentsHelper.parse(args).getOptionValue(ArgumentsHelper.INPUT_FILEPATH);
             String outputDest = ArgumentsHelper.parse(args).getOptionValue(ArgumentsHelper.OUTPUT_DIR);
             String maxThreads = ArgumentsHelper.parse(args).getOptionValue(ArgumentsHelper.THREADS_LIMIT,
-                                                                           ArgumentsHelper.DEFAULT_THREADS_LIMIT);
+                    ArgumentsHelper.DEFAULT_THREADS_LIMIT);
             String speedLimit = ArgumentsHelper.parse(args).getOptionValue(ArgumentsHelper.SPEED_LIMIT,
-                                                                           ArgumentsHelper.DEFAULT_SPEED_LIMIT);
+                    ArgumentsHelper.DEFAULT_SPEED_LIMIT);
 
             ArgumentsHelper.checkFilePaths(inputFilename, outputDest);
             long convertedSpeedLimit = ArgumentsHelper.handleUnitSuffix(speedLimit);
 
-            HashMap<String, String> links = new FileParser().parseFile(inputFilename);
+            Map<String, String> links = new FileParser().parseFile(inputFilename);
             DownloadManager downloadManager = new DownloadManager(links,
-                                                   outputDest,
-                                                   Integer.parseInt(maxThreads),
-                                                   convertedSpeedLimit);
+                    outputDest,
+                    Integer.parseInt(maxThreads),
+                    convertedSpeedLimit);
             downloadManager.start();
 
             long endTime = System.currentTimeMillis();
             long workingTime = endTime - startTime;
             long workingHours = TimeUnit.MILLISECONDS.toHours(workingTime);
             long workingMinutes = TimeUnit.MILLISECONDS.toMinutes(workingTime) -
-                                 TimeUnit.HOURS.toMinutes(workingHours);
+                    TimeUnit.HOURS.toMinutes(workingHours);
             long workingSeconds = TimeUnit.MILLISECONDS.toSeconds(workingTime) -
-                                  TimeUnit.MINUTES.toSeconds(workingMinutes);
+                    TimeUnit.MINUTES.toSeconds(workingMinutes);
 
             System.out.println(String.format(STATISTIC_MESSAGE,
-                                             workingHours, workingMinutes, workingSeconds,
-                                             downloadManager.getBytesCounter()));
+                    workingHours, workingMinutes, workingSeconds,
+                    downloadManager.getBytesCounter()));
 
         } catch (ParseException | InterruptedException | IOException e) {
             System.out.println(e.getMessage());

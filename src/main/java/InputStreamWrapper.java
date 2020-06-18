@@ -8,7 +8,7 @@ import java.io.InputStream;
 public class InputStreamWrapper extends FilterInputStream {
 
     private long timestamp = System.currentTimeMillis();
-    private long LIMIT;
+    private final long LIMIT;
     private static final int MS_PER_SEC = 1000;
     private int counter;
 
