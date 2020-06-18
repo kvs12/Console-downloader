@@ -1,0 +1,2 @@
+http://ftp.at.debian.org/debian-cd/current-live/amd64/iso-hybrid/debian-live-8.7.1-amd64-kde-desktop.iso debian-live-8.7.1-amd64-kde-desktop.iso
+http://ftp.fau.de/fedorak/linux/releases/32/Workstation/x86_64/iso/Fedora-Workstation-Live-x86_64-32-1.6.iso Fedora-Workstation-Live-x86_64-32-1.6.iso
